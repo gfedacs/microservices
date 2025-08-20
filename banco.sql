@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `order`;
 CREATE DATABASE IF NOT EXISTS `payment`;
-
+ 
 USE `order`;
 
 CREATE TABLE orders (
