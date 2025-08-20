@@ -6,6 +6,6 @@ import (
 	"github.com/gfedacs/microservices/order/internal/application/core/domain"
 )
 
-type APIPort interface {
-	PlaceOrder(ctx context.Context,order domain.Order) (domain.Order, error)
+type PaymentPort interface {
+	Charge(ctx context.Context,order *domain.Order) error
 }
