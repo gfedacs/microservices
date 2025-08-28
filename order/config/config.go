@@ -6,12 +6,17 @@ import (
 	"strconv"
 )
 
+
+
+
 func getEnvironmentValue(key string) string {
 	if os.Getenv(key) == ""{
 		log.Fatalf("%s enviroment variable is missing", key)
 	}
 	return os.Getenv(key)
 }
+
+
 
 func GetEnv() string {
 	return getEnvironmentValue("ENV")
