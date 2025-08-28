@@ -52,7 +52,9 @@ func (a Adapter) Run(){
 	if config.GetEnv() == "development" {
 		reflection.Register(grpcServer)
 	}
-	if err := grpcServer.Serve(listen); err != nil {
+	if err := grpcServer.Serve(listen); err != nil { 
+		
 		log.Fatal("failed to serve grpc on port ")
+
 	}
 }
