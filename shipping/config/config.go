@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/LucasJaud/microservices/shipping/config"
-	"github.com/LucasJaud/microservices/shipping/internal/adapters/db"
-	"github.com/LucasJaud/microservices/shipping/internal/adapters/grpc"
-	"github.com/LucasJaud/microservices/shipping/internal/application/core/api"
+	"github.com/gfedacs/microservices/shipping/config"
+	"github.com/gfedacs/microservices/shipping/internal/adapters/db"
+	"github.com/gfedacs/microservices/shipping/internal/adapters/grpc"
+	"github.com/gfedacs/microservices/shipping/internal/application/core/api"
 	log "github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/jaeger"
