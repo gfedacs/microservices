@@ -14,6 +14,7 @@ type Order struct {
 	Status string
 	OrderItems []OrderItem
 	CreatedAt int64
+	DeliveryDays int32 
 }
 
 func NewOrder(customerId int64, orderItems []OrderItem,) Order{

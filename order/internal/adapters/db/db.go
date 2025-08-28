@@ -22,6 +22,12 @@ type OrderItem struct {
 	OrderId uint
 }
 
+type StockItem struct {
+    ID          uint   `gorm:"primaryKey"`
+    ProductCode string `gorm:"column:product_code"`
+    Name        string
+}
+
 type Adapter struct {
 	db *gorm.DB
 }
@@ -87,4 +93,25 @@ func (a Adapter) Save(order *domain.Order) error{
 		return res.Error
 	}
 	return  nil
+}
+
+func (a *Adapter) ExistsStockItems(productCodes []string) (bool, []string, error) {
+	var existing []StockItem
+	if err := a.db.Where("product_code IN ?", productCodes).Find(&existing).Error; err != nil {
+		return false, nil, err
+	}
+
+	missing := []string{}
+	existingMap := make(map[string]bool)
+	for _, item := range existing {
+		existingMap[item.ProductCode] = true
+	}
+
+	for _, code := range productCodes {
+		if !existingMap[code] {
+			missing = append(missing, code)
+		}
+	}
+
+	return len(missing) == 0, missing, nil
 }

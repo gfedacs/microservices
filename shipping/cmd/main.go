@@ -3,10 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/huseyinbabal/microservices/payment/config"
-	"github.com/huseyinbabal/microservices/payment/internal/adapters/db"
-	"github.com/huseyinbabal/microservices/payment/internal/adapters/grpc"
-	"github.com/huseyinbabal/microservices/payment/internal/application/core/api"
+	"github.com/gfedacs/microservices/shipping/config"
+	"github.com/gfedacs/microservices/shipping/internal/adapters/db"
+	"github.com/gfedacs/microservices/shipping/internal/adapters/grpc"
+	"github.com/gfedacs/microservices/shipping/internal/application/core/api"
 	log "github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/jaeger"
@@ -14,16 +14,17 @@ import (
 	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.10.0"
 	"go.opentelemetry.io/otel/trace"
+	// "go.opentelemetry.io/otel"
+	// "go.opentelemetry.io/otel/propagation"
 )
 
 const (
-	service     = "payment"
+	service = "shipping"
 	environment = "dev"
-	id          = 2
+	id = 3
 )
 
 func tracerProvider(url string) (*tracesdk.TracerProvider, error) {
-	// Create the Jaeger exporter
 	exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(url)))
 	if err != nil {
 		return nil, err
@@ -40,6 +41,10 @@ func tracerProvider(url string) (*tracesdk.TracerProvider, error) {
 	return tp, nil
 }
 
+type customLogger struct {
+	formatter log.JSONFormatter
+}
+
 func init() {
 	log.SetFormatter(customLogger{
 		formatter: log.JSONFormatter{FieldMap: log.FieldMap{
@@ -48,10 +53,6 @@ func init() {
 	})
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.InfoLevel)
-}
-
-type customLogger struct {
-	formatter log.JSONFormatter
 }
 
 func (l customLogger) Format(entry *log.Entry) ([]byte, error) {
@@ -63,12 +64,13 @@ func (l customLogger) Format(entry *log.Entry) ([]byte, error) {
 }
 
 func main() {
+
 	dbAdapter, err := db.NewAdapter(config.GetDataSourceURL())
 	if err != nil {
 		log.Fatalf("Failed to connect to database. Error: %v", err)
 	}
 
-	application := api.NewApplication(dbAdapter)
+	application := api.NewApplication(dbAdapter) 
 	grpcAdapter := grpc.NewAdapter(application, config.GetApplicationPort())
 	grpcAdapter.Run()
 }
