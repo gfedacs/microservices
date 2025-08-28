@@ -31,3 +31,5 @@ func main() {
 	grpcAdapter := grpc.NewAdapter(application, config.GetApplicationPort())
 	grpcAdapter.Run()
 }
+
+// This application have 2 ttk
