@@ -108,8 +108,10 @@ func (a *Adapter) ExistsStockItems(productCodes []string) (bool, []string, error
 	}
 
 	for _, code := range productCodes {
+		
 		if !existingMap[code] {
 			missing = append(missing, code)
+
 		}
 	}
 
